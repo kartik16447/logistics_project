@@ -2,10 +2,12 @@ const Warehouse = require("../models/warehouse");
 
 const warehouse_create_post = (req, res) => {
   console.log(`post request for Warehouse ${req.body}`);
-  const newWarehouse = new Warehouse({
-    name: req.body.name,
-    address: req.body.address,
-  });
+  const newWarehouse = new Warehouse(req.body);
+  //Alternate Method:
+  // const newWarehouse = new Warehouse({
+  //   name: req.body.name,
+  //   address: req.body.address,
+  // });
   newWarehouse
     .save()
     .then((result) => {
