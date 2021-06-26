@@ -2,10 +2,12 @@ const Vendor = require("../models/vendor");
 
 const vendor_create_post = (req, res) => {
   console.log(`post request for vendor`);
-  const newVendor = new Vendor({
-    name: req.body.name,
-    address: req.body.address,
-  });
+  const newVendor = new Vendor(req.body);
+  //Alternate Method:
+  // const newVendor = new Vendor({
+  //   name: req.body.name,
+  //   address: req.body.address,
+  // });
   newVendor
     .save()
     .then((result) => {
