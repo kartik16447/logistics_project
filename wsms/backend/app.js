@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const orderRoutes = require("./routes/orderRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const warehouseRoutes = require("./routes/warehouseRoutes");
+const debugRoutes = require("./routes/debugRoutes");
 
 const app = express();
 
@@ -50,3 +51,4 @@ app.get("/", (req, res, next) => {
 app.use("/order", orderRoutes);
 app.use("/vendor", vendorRoutes);
 app.use("/warehouse", warehouseRoutes);
+app.use("/debug", debugRoutes);

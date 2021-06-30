@@ -1,30 +1,30 @@
 const mongoose = require("mongoose");
+const { vendorSchema } = require("./vendor");
 const Schema = mongoose.Schema;
 
-const warehouseSchema = new Schema({
-  name: {
-    type: String,
+const Vendor = mongoose.model("Vendor", vendorSchema).schema;
+
+const debugSchema = new Schema({
+  vendor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Vendor",
     required: true,
-    unique: true,
-  },
-  address: {
-    type: String,
+    unique: false,
   },
 });
 
-const Warehouse = mongoose.model("Warehouse", warehouseSchema);
+const Debug = mongoose.model("Debug", debugSchema);
 
 const get_by_id = (req, res, id) => {
-  Warehouse.findById(id)
+  Debug.findById(id)
     .exec()
     .then(function (data) {
-      console.log(data);
       res.send(data);
     });
 };
 
 const get_all = (req, res, id) => {
-  Warehouse.find()
+  Debug.find()
     .exec()
     .then(function (data) {
       res.send(data);
@@ -32,7 +32,7 @@ const get_all = (req, res, id) => {
 };
 
 const delete_by_id = (req, res, id) => {
-  Warehouse.findByIdAndDelete(id)
+  Debug.findByIdAndDelete(id)
     .exec()
     .then(function (data) {
       res.send(data);
@@ -41,7 +41,7 @@ const delete_by_id = (req, res, id) => {
 };
 
 module.exports = {
-  Warehouse,
+  Debug,
   get_by_id,
   get_all,
   delete_by_id,
