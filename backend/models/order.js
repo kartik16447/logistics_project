@@ -31,7 +31,7 @@ const orderSchema = new Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-const get_by_id = (req, res, id) => {
+const get_order_by_id = (req, res, id) => {
   Order.findById(id)
     .populate("warehouse")
     .populate("vendor")
@@ -43,7 +43,7 @@ const get_by_id = (req, res, id) => {
     });
 };
 
-const get_all = (req, res) => {
+const get_all_orders = (req, res) => {
   // Order.find({ vendor: "60d3a4e5edad0186bb03bc06" })
   // Order.find({ warehouse: "60d3a3cea594a9866b624cf9" })
   Order.find()
@@ -55,18 +55,8 @@ const get_all = (req, res) => {
     });
 };
 
-const delete_by_id = (req, res, id) => {
-  Order.findByIdAndDelete(id)
-    .exec()
-    .then(function (data) {
-      res.send(data);
-      console.log("Deleted!");
-    });
-};
-
 module.exports = {
   Order,
-  get_by_id,
-  get_all,
-  delete_by_id,
+  get_order_by_id,
+  get_all_orders,
 };

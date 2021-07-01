@@ -1,5 +1,5 @@
 const { findById } = require("../models/item");
-const { Order, get_by_id, get_all, delete_by_id } = require("../models/order");
+const { Order, get_order_by_id, get_all_orders } = require("../models/order");
 
 const create = (req, res) => {
   console.log(`post request for Order ${req.body}`);
@@ -31,25 +31,13 @@ const get = (req, res) => {
   if (req.query.id != null) {
     const id = req.query.id;
     console.log(`get request made for order: ${id}`);
-    get_by_id(req, res, id);
+    get_order_by_id(req, res, id);
   } else {
-    get_all(req, res);
-  }
-};
-
-const order_delete = (req, res) => {
-  console.log(`delete request made`);
-  if (req.query.id != null) {
-    const id = req.query.id;
-    console.log(`delete request made for order: ${id}`);
-    delete_by_id(req, res, id);
-  } else {
-    console.log(`please provide an id to delete`);
+    get_all_orders(req, res);
   }
 };
 
 module.exports = {
   create,
   get,
-  order_delete,
 };
