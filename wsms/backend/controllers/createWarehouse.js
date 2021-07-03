@@ -3,6 +3,7 @@ const {
   get_by_id,
   get_all,
   delete_by_id,
+  get_id,
 } = require("../models/warehouse");
 
 const create_post = (req, res) => {
@@ -48,8 +49,21 @@ const _delete = (req, res) => {
   }
 };
 
+const get_id_by_name = (req, res) => {
+  console.log(`name to id`);
+  if (req.query.name != null) {
+    const warehouseName = req.query.name;
+    console.log(`name: ${warehouseName}`);
+    const id = get_id(req, res, warehouseName);
+    console.log(id);
+  } else {
+    console.log(`please provide name`);
+  }
+};
+
 module.exports = {
   create_post,
   get,
   _delete,
+  get_id_by_name,
 };

@@ -1,13 +1,37 @@
 const { findById } = require("../models/item");
 const { Order, get_by_id, get_all, delete_by_id } = require("../models/order");
+const { Warehouse } = require("../models/warehouse");
+const { Vendor } = require("../models/vendor");
 
 const create = (req, res) => {
   console.log(`post request for Order ${req.body}`);
   // const newOrder = new Order(req.body);
   //Alternate Method:
+  var wid = "";
+  var vid = "";
+  Warehouse.findOne({ name: req.body.warehouse })
+    .exec()
+    .then(function (data) {
+      console.log(data._id);
+      wid = data._id;
+    })
+    .then(function (data) {
+      Vendor.findOne({ name: req.body.vendor })
+        .exec()
+        .then(function (data) {
+          console.log(data._id);
+          vid = data._id;
+        })
+        .then(function (data) {
+          create_post(req, res, wid, vid);
+        });
+    });
+};
+
+const create_post = (req, res, wid, vid) => {
   const newOrder = new Order({
-    warehouse: req.body.warehouseId,
-    vendor: req.body.vendorId,
+    warehouse: wid,
+    vendor: vid,
     items: req.body.items,
   });
   newOrder

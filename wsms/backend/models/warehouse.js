@@ -23,6 +23,19 @@ const get_by_id = (req, res, id) => {
     });
 };
 
+const get_id = async function (req, res, name) {
+  return await get_id_by_name(name);
+};
+
+const get_id_by_name = (name) => {
+  Warehouse.findOne({ name: name })
+    .exec()
+    .then(function (data) {
+      console.log(data._id);
+      return data._id;
+    });
+};
+
 const get_all = (req, res, id) => {
   Warehouse.find()
     .exec()
@@ -45,4 +58,5 @@ module.exports = {
   get_by_id,
   get_all,
   delete_by_id,
+  get_id,
 };
