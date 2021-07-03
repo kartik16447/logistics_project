@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post("/", order.create);
 router.get("/", order.get);
+router.delete("/", order.order_delete);
 
 module.exports = router;
