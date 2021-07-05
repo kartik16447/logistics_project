@@ -25,13 +25,17 @@ h1 {
 }
 
 p {
-  color: white;
+  color: #bf1650;
   margin-bottom: 40px;
 }
 
 p::before {
   display: inline;
-  /* content: "⚠ "; */
+  content: "⚠ ";
+}
+p::before {
+  display: inline;
+  content: "⚠ ";
 }
 
 input {
@@ -146,7 +150,7 @@ ul {
 section,
 li {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 20px;
   margin-bottom: 20px;
   /* height: 30px; */
@@ -178,4 +182,9 @@ li > button {
   position: fixed;
   top: 20px;
   right: 20px;
+}
+
+.head {
+  color: white;
+  font-weight: 200;
 }
