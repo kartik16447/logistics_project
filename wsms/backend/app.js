@@ -29,7 +29,7 @@ empty req.body issue faced because the content type was not specified
 //Connecting to wsms database in localhost
 const dbURI = "mongodb://127.0.0.1:27017/wsms";
 //Port 3000 and 5000 are fine for development purposes
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 //TODO: Connect the env file without declaring the script as module
 
