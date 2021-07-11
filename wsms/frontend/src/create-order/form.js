@@ -50,16 +50,16 @@ export default function Form() {
       {errors.vendorName && <p>{errors.vendorName.message}</p>}
 
       <input
-        {...register("sendersAddress", {})}
-        placeholder="Sender's address"
+        {...register("vendorAddress", {})}
+        placeholder="Vendor's address"
       />
-      {errors.sendersAddress && <p>{errors.sendersAddress.message}</p>}
+      {errors.vendorAddress && <p>{errors.vendorAddress.message}</p>}
 
       <input
-        {...register("recipientAddress", {})}
-        placeholder="Recipient's Address"
+        {...register("deliveryAddress", {})}
+        placeholder="Warehouse Address"
       />
-      {errors.recipientAddress && <p>{errors.recipientAddress.message}</p>}
+      {errors.deliveryAddress && <p>{errors.deliveryAddress.message}</p>}
 
       <div>
         <label>Dispatch date</label>
@@ -102,7 +102,9 @@ export default function Form() {
                 name={`item[${index}].itemQuantity`}
                 control={control}
                 defaultValue={object.itemQuantity} // make sure to set up defaultValue
-                render={({ field }) => <input {...field} placeholder="Quantity" />}
+                render={({ field }) => (
+                  <input {...field} placeholder="Quantity" />
+                )}
               />
 
               <Controller

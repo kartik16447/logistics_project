@@ -5,8 +5,8 @@ import * as yup from "yup";
 const Schema = yup.object().shape({
   warehouseName: yup.string().required("Please submit a warehouse name"),
   vendorName: yup.string().required("Please submit a vendor name"),
-  sendersAddress: yup.string().required("Please submit sender's address"),
-  recipientAddress: yup.string().required("Please submit recipient's address"),
+  vendorAddress: yup.string().required("Please submit vendor's address"),
+  deliveryAddress: yup.string().required("Please submit delivery address"),
   dispatchDate: yup
     .date("Please submit a correct date")
     .typeError("Please submit a valid date")
