@@ -82,40 +82,34 @@ export default function Form() {
       {errors.deliveryDate && <p>{errors.deliveryDate.message}</p>}
 
       <ul>
-        <li class="head">
-          <span>Item</span>
-          <span>Units</span>
-          <span>Quantity</span>
-          <span>Value</span>
-        </li>
-
         {fields.map((object, index) => {
           return (
             <li key={object.id}>
               <input
                 defaultValue={`${object.itemName}`} // make sure to set up defaultValue
                 {...register(`item[${index}].itemName`)}
+                placeholder="Item"
               />
 
               <Controller
                 name={`item[${index}].itemUnit`}
                 control={control}
                 defaultValue={object.itemUnit} // make sure to set up defaultValue
-                render={({ field }) => <input {...field} />}
+                render={({ field }) => <input {...field} placeholder="Units" />}
               />
 
               <Controller
                 name={`item[${index}].itemQuantity`}
                 control={control}
                 defaultValue={object.itemQuantity} // make sure to set up defaultValue
-                render={({ field }) => <input {...field} />}
+                render={({ field }) => <input {...field} placeholder="Quantity" />}
               />
 
               <Controller
                 name={`item[${index}].itemValue`}
                 control={control}
                 defaultValue={object.itemValue} // make sure to set up defaultValue
-                render={({ field }) => <input {...field} />}
+                render={({ field }) => <input {...field} placeholder="Value" />}
               />
 
               <button type="button" onClick={() => remove(index)}>
