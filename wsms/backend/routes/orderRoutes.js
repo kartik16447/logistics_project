@@ -8,6 +8,7 @@ router.use(cors());
 
 router.post("/", order.create);
 router.get("/", order.get);
-router.delete("/", order.order_delete);
+router.delete("/", order._delete);
+router.patch("/status", order.update);
 
 module.exports = router;

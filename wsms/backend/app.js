@@ -5,8 +5,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 const orderRoutes = require("./routes/orderRoutes");
-const vendorRoutes = require("./routes/vendorRoutes");
 const warehouseRoutes = require("./routes/warehouseRoutes");
+const vendorRoutes = require("./routes/vendorRoutes");
+const consigneeRoutes = require("./routes/consigneeRoutes");
 const debugRoutes = require("./routes/debugRoutes");
 
 const app = express();
@@ -36,8 +37,11 @@ empty req.body issue faced because the content type was not specified
 
 //Connecting to wsms database in localhost
 const dbURI = "mongodb://127.0.0.1:27017/wsms";
+// const dbURI =
+//   "mongodb+srv://manan:manan@projects.dnlfa.mongodb.net/wsms?retryWrites=true&w=majority";
+
 //Port 3000 and 5000/8000 are fine for development purposes
-const port = process.env.PORT || 8000;
+const port = 8000;
 
 //TODO: Connect the env file without declaring the script as module
 
@@ -57,6 +61,7 @@ app.get("/", (req, res, next) => {
 
 //Directing respective routes-files
 app.use("/order", orderRoutes);
-app.use("/vendor", vendorRoutes);
 app.use("/warehouse", warehouseRoutes);
+app.use("/vendor", vendorRoutes);
+app.use("/consignee", consigneeRoutes);
 app.use("/debug", debugRoutes);

@@ -41,10 +41,11 @@ const orderSchema = new Schema({
     unique: false,
   },
   status: {
-    type: [Items],
+    type: [Item],
   },
   nature: {
     type: String,
+    enum: ["INWARD", "OUTWARD"],
     required: true,
     unique: false,
   },

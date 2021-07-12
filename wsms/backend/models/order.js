@@ -10,20 +10,42 @@ const Warehouse = mongoose.model("Warehouse", warehouseSchema).schema;
 const Item = mongoose.model("Item", itemSchema).schema;
 
 const orderSchema = new Schema({
-  warehouse: {
+  receiverWarehouse: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Warehouse",
-    required: true,
+    unique: false,
+  },
+  senderWarehouse: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Warehouse",
     unique: false,
   },
   vendor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Vendor",
-    required: true,
+    unique: false,
+  },
+  consignee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Consignee",
     unique: false,
   },
   items: {
     type: [Item],
+  },
+  totalValue: {
+    type: Number,
+    required: false,
+    unique: false,
+  },
+  status: {
+    type: [Item],
+  },
+  nature: {
+    type: String,
+    enum: ["INWARD", "OUTWARD"],
+    required: true,
+    unique: false,
   },
 });
 //TODO: Find a way to make Item.name in items array unique.
@@ -39,6 +61,9 @@ const get_by_id = (req, res, id) => {
       console.log(data);
       res.send(data);
       console.log(`Success!`);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -51,6 +76,9 @@ const get_all = (req, res) => {
     .exec()
     .then(function (data) {
       res.send(data);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -60,7 +88,23 @@ const delete_by_id = (req, res, id) => {
     .then(function (data) {
       res.send(data);
       console.log("Deleted!");
+    })
+    .catch((error) => {
+      console.log(error);
     });
+};
+
+const update_status = (req, res, id, status) => {
+  Order.findById(id, function (err, doc) {
+    if (err) {
+      console.log(err);
+    }
+    doc.status = status;
+    doc.save();
+    res.send(doc);
+  }).catch((error) => {
+    console.log(error);
+  });
 };
 
 module.exports = {
@@ -68,4 +112,5 @@ module.exports = {
   get_by_id,
   get_all,
   delete_by_id,
+  update_status,
 };

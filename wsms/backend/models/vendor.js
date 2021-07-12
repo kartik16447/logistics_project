@@ -10,6 +10,12 @@ const vendorSchema = new Schema({
   address: {
     type: String,
   },
+  emailId: {
+    type: String,
+  },
+  contact: {
+    type: String,
+  },
 });
 
 const Vendor = mongoose.model("Vendor", vendorSchema);
@@ -19,6 +25,9 @@ const get_by_id = (req, res, id) => {
     .exec()
     .then(function (data) {
       res.send(data);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -27,6 +36,9 @@ const get_all = (req, res, id) => {
     .exec()
     .then(function (data) {
       res.send(data);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -36,6 +48,9 @@ const delete_by_id = (req, res, id) => {
     .then(function (data) {
       res.send(data);
       console.log("Deleted!");
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 

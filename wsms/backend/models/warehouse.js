@@ -10,6 +10,12 @@ const warehouseSchema = new Schema({
   address: {
     type: String,
   },
+  contact: {
+    type: String,
+  },
+  emailId: {
+    type: String,
+  },
 });
 
 const Warehouse = mongoose.model("Warehouse", warehouseSchema);
@@ -20,6 +26,9 @@ const get_by_id = (req, res, id) => {
     .then(function (data) {
       console.log(data);
       res.send(data);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -33,6 +42,9 @@ const get_id_by_name = (name) => {
     .then(function (data) {
       console.log(data._id);
       return data._id;
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -41,6 +53,9 @@ const get_all = (req, res, id) => {
     .exec()
     .then(function (data) {
       res.send(data);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -50,6 +65,9 @@ const delete_by_id = (req, res, id) => {
     .then(function (data) {
       res.send(data);
       console.log("Deleted!");
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
