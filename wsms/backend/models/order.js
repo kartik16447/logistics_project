@@ -24,7 +24,6 @@ const orderSchema = new Schema({
   },
   items: {
     type: [Item],
-    uniqueItems: true, //not working
   },
 });
 //TODO: Find a way to make Item.name in items array unique.

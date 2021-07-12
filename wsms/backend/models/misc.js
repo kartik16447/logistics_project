@@ -1,30 +1,39 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const { vendorSchema } = require("./vendor");
 const { warehouseSchema } = require("./warehouse");
+const { vendorSchema } = require("./vendor");
+const { consigneeSchema } = require("./consignee");
 const { itemSchema } = require("./item");
 
-const Vendor = mongoose.model("Vendor", vendorSchema).schema;
 const Warehouse = mongoose.model("Warehouse", warehouseSchema).schema;
+const Vendor = mongoose.model("Vendor", vendorSchema).schema;
+const Consignee = mongoose.model("Consignee", consigneeSchema).schema;
 const Item = mongoose.model("Item", itemSchema).schema;
 
 const orderSchema = new Schema({
-  warehouse: {
+  receiverWarehouse: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Warehouse",
-    required: true,
+    unique: false,
+  },
+  senderWarehouse: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Warehouse",
     unique: false,
   },
   vendor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Vendor",
-    required: true,
+    unique: false,
+  },
+  consignee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Consignee",
     unique: false,
   },
   items: {
     type: [Item],
-    uniqueItems: true, //not working
   },
   totalValue: {
     type: Number,
@@ -32,7 +41,12 @@ const orderSchema = new Schema({
     unique: false,
   },
   status: {
-    type: [],
+    type: [Items],
+  },
+  nature: {
+    type: String,
+    required: true,
+    unique: false,
   },
 });
 //TODO: Find a way to make Item.name in items array unique.
