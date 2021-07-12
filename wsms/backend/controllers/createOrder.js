@@ -1,41 +1,131 @@
 const { Item } = require("../models/item");
-const { Order, get_by_id, get_all, delete_by_id } = require("../models/order");
+const {
+  Order,
+  get_by_id,
+  get_all,
+  delete_by_id,
+  update_status,
+} = require("../models/order");
 const { Warehouse } = require("../models/warehouse");
 const { Vendor } = require("../models/vendor");
+const { Consignee } = require("../models/consignee");
 
 const create = (req, res) => {
-  const body = JSON.parse(req.body);
-  console.log(`\n\npost request for Order ${data}\n\n`);
+  const body = req.body;
+  console.log(`\n\npost request for Order ${body}\n\n`);
   // const newOrder = new Order(req.body);
   //Alternate Method:
-  var wid = "";
-  var vid = "";
 
-  Warehouse.findOne({ name: body.warehouseName })
-    .exec()
-    .then(function (data) {
-      console.log(data._id);
-      wid = data._id;
+  if (body.nature == "OUTWARD") {
+    var swid = "";
+    var rwid = "";
+    var cid = "";
+    Warehouse.findOne({ name: body.senderWarehouseName })
+      .exec()
+      .then(function (data) {
+        console.log(data._id);
+        swid = data._id;
+      })
+      .then(function (data) {
+        if (body.consigneeName != null) {
+          Consignee.findOne({ name: body.consigneeName })
+            .exec()
+            .then(function (data) {
+              console.log(data._id);
+              cid = data._id;
+            })
+            .then(function (data) {
+              create_outward_post_c(req, res, swid, cid, body);
+            });
+        } else {
+          Warehouse.findOne({ name: body.receiverWarehouseName })
+            .exec()
+            .then(function (data) {
+              console.log(data._id);
+              rwid = data._id;
+            })
+            .then(function (data) {
+              create_outward_post_rw(req, res, swid, rwid, body);
+            });
+        }
+      });
+  } else {
+    var vid = "";
+    var rwid = "";
+
+    Warehouse.findOne({ name: body.warehouseName })
+      .exec()
+      .then(function (data) {
+        console.log(data._id);
+        rwid = data._id;
+      })
+      .then(function (data) {
+        Vendor.findOne({ name: body.vendorName })
+          .exec()
+          .then(function (data) {
+            console.log(data._id);
+            vid = data._id;
+          })
+          .then(function (data) {
+            create_inward_post(req, res, vid, rwid, body);
+          });
+      });
+  }
+};
+
+const create_outward_post_c = (req, res, swid, cid, body) => {
+  const newOrder = new Order({
+    senderWarehouse: swid,
+    consignee: cid,
+    items: body.item,
+    status: body.item,
+    nature: body.nature,
+  });
+  newOrder
+    .save()
+    .then((result) => {
+      res.redirect("/");
+      console.log(result);
+      console.log(`Success!`);
+      // console.log(get_vendor_by_id(req, res, req.body.vendorId));
     })
-    .then(function (data) {
-      Vendor.findOne({ name: body.vendorName })
-        .exec()
-        .then(function (data) {
-          console.log(data._id);
-          vid = data._id;
-        })
-        .then(function (data) {
-          create_post(req, res, wid, vid, body);
-        });
+    .catch((err) => {
+      console.log(err);
+      console.log(req.body);
+      res.redirect("/");
     });
 };
 
-const create_post = (req, res, wid, vid, body) => {
+const create_outward_post_rw = (req, res, swid, rwid, body) => {
   const newOrder = new Order({
-    receiverWarehouse: wid,
+    senderWarehouse: swid,
+    receiverWarehouse: rwid,
+    items: body.item,
+    status: body.item,
+    nature: body.nature,
+  });
+  newOrder
+    .save()
+    .then((result) => {
+      res.redirect("/");
+      console.log(result);
+      console.log(`Success!`);
+      // console.log(get_vendor_by_id(req, res, req.body.vendorId));
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(req.body);
+      res.redirect("/");
+    });
+};
+
+const create_inward_post = (req, res, vid, rwid, body) => {
+  const newOrder = new Order({
+    receiverWarehouse: rwid,
     vendor: vid,
     items: body.item,
     status: body.item,
+    nature: body.nature,
   });
   newOrder
     .save()
@@ -63,7 +153,7 @@ const get = (req, res) => {
   }
 };
 
-const order_delete = (req, res) => {
+const _delete = (req, res) => {
   console.log(`delete request made`);
   if (req.query.id != null) {
     const id = req.query.id;
@@ -74,8 +164,16 @@ const order_delete = (req, res) => {
   }
 };
 
+const update = (req, res) => {
+  console.log(`update request made`);
+  const id = req.body._id;
+  const status = req.body.status;
+  update_status(req, res, id, status);
+};
+
 module.exports = {
   create,
   get,
-  order_delete,
+  _delete,
+  update,
 };
