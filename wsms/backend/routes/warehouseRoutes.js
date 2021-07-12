@@ -1,7 +1,10 @@
 const express = require("express");
+const cors = require("cors");
+
 const warehouse = require("../controllers/createWarehouse");
 
 const router = express.Router();
+router.use(cors());
 
 router.post("/", warehouse.create_post);
 router.get("/", warehouse.get);

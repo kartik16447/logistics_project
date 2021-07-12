@@ -19,6 +19,16 @@ const itemSchema = new Schema(
     value: {
       type: Number,
     },
+    received: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    sent: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   { _id: false }
 );

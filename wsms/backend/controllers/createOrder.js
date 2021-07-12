@@ -1,38 +1,41 @@
-const { findById } = require("../models/item");
+const { Item } = require("../models/item");
 const { Order, get_by_id, get_all, delete_by_id } = require("../models/order");
 const { Warehouse } = require("../models/warehouse");
 const { Vendor } = require("../models/vendor");
 
 const create = (req, res) => {
-  console.log(`post request for Order ${req.body}`);
+  const body = JSON.parse(req.body);
+  console.log(`\n\npost request for Order ${data}\n\n`);
   // const newOrder = new Order(req.body);
   //Alternate Method:
   var wid = "";
   var vid = "";
-  Warehouse.findOne({ name: req.body.warehouse })
+
+  Warehouse.findOne({ name: body.warehouseName })
     .exec()
     .then(function (data) {
       console.log(data._id);
       wid = data._id;
     })
     .then(function (data) {
-      Vendor.findOne({ name: req.body.vendor })
+      Vendor.findOne({ name: body.vendorName })
         .exec()
         .then(function (data) {
           console.log(data._id);
           vid = data._id;
         })
         .then(function (data) {
-          create_post(req, res, wid, vid);
+          create_post(req, res, wid, vid, body);
         });
     });
 };
 
-const create_post = (req, res, wid, vid) => {
+const create_post = (req, res, wid, vid, body) => {
   const newOrder = new Order({
-    warehouse: wid,
+    receiverWarehouse: wid,
     vendor: vid,
-    items: req.body.items,
+    items: body.item,
+    status: body.item,
   });
   newOrder
     .save()
@@ -45,7 +48,6 @@ const create_post = (req, res, wid, vid) => {
     .catch((err) => {
       console.log(err);
       console.log(req.body);
-      console.log(req.body.items[0]);
       res.redirect("/");
     });
 };

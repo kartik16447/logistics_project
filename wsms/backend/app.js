@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 
 const orderRoutes = require("./routes/orderRoutes");
@@ -9,6 +10,13 @@ const warehouseRoutes = require("./routes/warehouseRoutes");
 const debugRoutes = require("./routes/debugRoutes");
 
 const app = express();
+
+// app.use(cors);
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
 //using body-parsers
 
@@ -28,7 +36,7 @@ empty req.body issue faced because the content type was not specified
 
 //Connecting to wsms database in localhost
 const dbURI = "mongodb://127.0.0.1:27017/wsms";
-//Port 3000 and 5000 are fine for development purposes
+//Port 3000 and 5000/8000 are fine for development purposes
 const port = process.env.PORT || 8000;
 
 //TODO: Connect the env file without declaring the script as module
