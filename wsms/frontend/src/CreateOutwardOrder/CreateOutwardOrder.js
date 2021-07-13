@@ -43,6 +43,8 @@ export default function CreateOrderOutward() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Order </h1>
 
+      <input value={"outward"} type="hidden" {...register("nature")} />
+
       <select {...register("type")}>
         <option value="consignee">Consignee</option>
         <option value="reciverWarehouse">Warehouse</option>

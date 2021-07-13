@@ -43,6 +43,8 @@ export default function CreateOrderInward() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Order </h1>
 
+      <input value={"inward"} type="hidden" {...register("nature")} />
+
       <input {...register("warehouseName", {})} placeholder="Warehouse" />
       {errors.warehouseName && <p>{errors.warehouseName.message}</p>}
 
