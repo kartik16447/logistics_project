@@ -1,7 +1,9 @@
-import Form from "./create-order/form";
+import AdminPanel from "./AdminPanel/AdminPanel";
+import CreateInwardOrder from "./CreateInwardOrder/CreateInwardOrder";
+import CreateOutwardOrder from "./CreateOutwardOrder/CreateOutwardOrder";
 
 function App() {
-  return <Form />;
+  return <AdminPanel />;
 }
 
 export default App;
