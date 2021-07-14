@@ -37,7 +37,15 @@ export default function CreateOrderOutward() {
     name: "item",
   });
 
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    fetch("http://localhost:8000/order/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

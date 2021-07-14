@@ -7,7 +7,7 @@ const {
 } = require("../models/warehouse");
 
 const create_post = (req, res) => {
-  console.log(`post request for Warehouse ${req.body}`);
+  console.log(`post request for warehouse`);
   const newWarehouse = new Warehouse(req.body);
   //Alternate Method:
   // const newWarehouse = new Warehouse({

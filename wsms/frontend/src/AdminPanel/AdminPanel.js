@@ -16,7 +16,13 @@ export default function AdminPanel() {
   });
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    fetch(`http://localhost:8000/${data.type}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      console.log(response);
+    });
   };
 
   const isType = watch("type");
@@ -43,7 +49,10 @@ export default function AdminPanel() {
 
       {isType === "warehouse" && (
         <div>
-          <input placeholder="warehouseField1" {...register("warehouseField1")} />
+          <input
+            placeholder="warehouseField1"
+            {...register("warehouseField1")}
+          />
         </div>
       )}
 

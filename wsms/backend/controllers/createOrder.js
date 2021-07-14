@@ -20,15 +20,15 @@ const create = (req, res) => {
     var swid = "";
     var rwid = "";
     var cid = "";
-    Warehouse.findOne({ name: body.senderWarehouseName })
+    Warehouse.findOne({ name: body.sendersName })
       .exec()
       .then(function (data) {
         console.log(data._id);
         swid = data._id;
       })
       .then(function (data) {
-        if (body.consigneeName != null) {
-          Consignee.findOne({ name: body.consigneeName })
+        if ((body.type = "consignee")) {
+          Consignee.findOne({ name: body.receiversName })
             .exec()
             .then(function (data) {
               console.log(data._id);
@@ -38,7 +38,7 @@ const create = (req, res) => {
               create_outward_post_c(req, res, swid, cid, body);
             });
         } else {
-          Warehouse.findOne({ name: body.receiverWarehouseName })
+          Warehouse.findOne({ name: body.receiversName })
             .exec()
             .then(function (data) {
               console.log(data._id);
