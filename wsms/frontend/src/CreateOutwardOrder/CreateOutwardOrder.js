@@ -4,9 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import Calc from "./calc";
 import Schema from "./schema";
-import "./optional.css";
+import "../styles.css";
 
-export default function Form() {
+export default function CreateOrderOutward() {
   // Default values absolutely needs to be supplied
   // See tips section under React hook form v7 controller
   // https://react-hook-form.com/api/usecontroller/controller
@@ -43,23 +43,30 @@ export default function Form() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>Order </h1>
 
-      <input {...register("warehouseName", {})} placeholder="Warehouse" />
-      {errors.warehouseName && <p>{errors.warehouseName.message}</p>}
+      <input value={"outward"} type="hidden" {...register("nature")} />
 
-      <input {...register("vendorName")} placeholder="Vendor" />
-      {errors.vendorName && <p>{errors.vendorName.message}</p>}
+      <select {...register("type")}>
+        <option value="consignee">Consignee</option>
+        <option value="reciverWarehouse">Warehouse</option>
+      </select>
+
+      <input {...register("sendersName")} placeholder="Sender's Name" />
+      {errors.sendersName && <p>{errors.sendersName.message}</p>}
+
+      <input {...register("receiversName")} placeholder="Receiver's Name" />
+      {errors.receiversName && <p>{errors.receiversName.message}</p>}
 
       <input
-        {...register("vendorAddress", {})}
-        placeholder="Vendor's address"
+        {...register("sendersAddress", {})}
+        placeholder="Sender's address"
       />
-      {errors.vendorAddress && <p>{errors.vendorAddress.message}</p>}
+      {errors.sendersAddress && <p>{errors.sendersAddress.message}</p>}
 
       <input
-        {...register("deliveryAddress", {})}
-        placeholder="Warehouse Address"
+        {...register("receiversAddress", {})}
+        placeholder="Receiver's address"
       />
-      {errors.deliveryAddress && <p>{errors.deliveryAddress.message}</p>}
+      {errors.receiversAddress && <p>{errors.receiversAddress.message}</p>}
 
       <div>
         <label>Dispatch date</label>
