@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import Calc from "./calc";
 import Schema from "./schema";
-import "../styles.css";
 
 export default function CreateOrderOutward() {
   // Default values absolutely needs to be supplied
@@ -63,18 +62,6 @@ export default function CreateOrderOutward() {
 
       <input {...register("receiversName")} placeholder="Receiver's Name" />
       {errors.receiversName && <p>{errors.receiversName.message}</p>}
-
-      <input
-        {...register("sendersAddress", {})}
-        placeholder="Sender's address"
-      />
-      {errors.sendersAddress && <p>{errors.sendersAddress.message}</p>}
-
-      <input
-        {...register("receiversAddress", {})}
-        placeholder="Receiver's address"
-      />
-      {errors.receiversAddress && <p>{errors.receiversAddress.message}</p>}
 
       <div>
         <label>Dispatch date</label>

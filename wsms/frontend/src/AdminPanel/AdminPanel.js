@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import Schema from "./schema";
-import "../styles.css";
 
 export default function AdminPanel() {
   const {
