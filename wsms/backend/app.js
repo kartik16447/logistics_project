@@ -54,10 +54,27 @@ mongoose
   .catch((err) => console.log(err));
 
 //Homepage Get Function
+
+app.get('/login', (req, res) => {
+    res.render('users/login');
+})
+
+app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    req.flash('success', 'welcome back!');
+    const redirectUrl = req.session.returnTo || '/';
+    delete req.session.returnTo;
+    res.redirect(redirectUrl);
+})
 app.get("/", (req, res, next) => {
   console.log(`request made for home page`);
   next();
 });
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', "Goodbye!");
+    res.redirect('/campgrounds');
+})
 
 //Directing respective routes-files
 app.use("/order", orderRoutes);
