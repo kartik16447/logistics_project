@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const warehouseSchema = new Schema({
   name: {
@@ -16,7 +17,13 @@ const warehouseSchema = new Schema({
   emailId: {
     type: String,
   },
+  level: {
+    type: String,
+    enum: ["ADMIN", "USER", "HEADQUARTER"],
+  },
 });
+
+warehouseSchema.plugin(passportLocalMongoose);
 
 const Warehouse = mongoose.model("Warehouse", warehouseSchema);
 

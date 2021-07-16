@@ -3,7 +3,6 @@ import Navbar from "./Navbar.js";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import CreateInwardOrder from "./CreateInwardOrder/CreateInwardOrder";
 import CreateOutwardOrder from "./CreateOutwardOrder/CreateOutwardOrder";
-import "./newStyles.css";
 
 function App() {
   return (

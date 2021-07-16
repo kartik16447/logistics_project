@@ -43,7 +43,7 @@ const orderSchema = new Schema({
   },
   nature: {
     type: String,
-    enum: ["INWARD", "OUTWARD"],
+    enum: ["inward", "outward"],
     required: true,
     unique: false,
   },
@@ -54,7 +54,8 @@ const Order = mongoose.model("Order", orderSchema);
 
 const get_by_id = (req, res, id) => {
   Order.findById(id)
-    .populate("warehouse")
+    .populate("receiverWarehouse")
+    .populate("senderWarehouse")
     .populate("vendor")
     .exec()
     .then(function (data) {
@@ -71,7 +72,8 @@ const get_all = (req, res) => {
   // Order.find({ vendor: "60d3a4e5edad0186bb03bc06" })
   // Order.find({ warehouse: "60d3a3cea594a9866b624cf9" })
   Order.find()
-    .populate("warehouse")
+    .populate("receiverWarehouse")
+    .populate("senderWarehouse")
     .populate("vendor")
     .exec()
     .then(function (data) {
