@@ -47,6 +47,11 @@ const orderSchema = new Schema({
     required: true,
     unique: false,
   },
+  isDelivered: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 //TODO: Find a way to make Item.name in items array unique.
 

@@ -1,4 +1,4 @@
-var express = require("express");
+const express = require("express");
 const cors = require("cors");
 
 const order = require("../controllers/createOrder");
