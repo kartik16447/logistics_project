@@ -3,15 +3,23 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('passport');
+const passportLocalMongoose =require('passport-local-mongoose');
+const LocalStrategy = require("passport-local").Strategy;
 
+const loginRoutes = require("./routes/loginRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const warehouseRoutes = require("./routes/warehouseRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const consigneeRoutes = require("./routes/consigneeRoutes");
 const debugRoutes = require("./routes/debugRoutes");
-
+const { isLoggedIn, isAuthor } = require("./authentication/middleware");
+const { Warehouse } = require("./models/warehouse");
 const app = express();
 
+//Cors Policy
 // app.use(cors);
 
 var corsOptions = {
@@ -19,18 +27,26 @@ var corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-//using body-parsers
-
+//Using Body-Parsers
 // parse application/json
 app.use(bodyParser.json()); //using json requests through insomnia/postman
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(session({
+    secret: "Our little secret",
+    resave: false,
+    saveUninitialized: false
+}));
 // parse the raw data
 app.use(bodyParser.raw());
 // parse text
 app.use(bodyParser.text());
 
+//Authentication
+app.use(passport.initialize());
+app.use(passport.session());
 /*
 empty req.body issue faced because the content type was not specified
 */
@@ -53,6 +69,19 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+
+passport.use(new LocalStrategy(Warehouse.authenticate()));
+
+passport.serializeUser(Warehouse.serializeUser());
+passport.deserializeUser(Warehouse.deserializeUser());
+
+// a function for async if it gives an error just simply apply name wrapAsync aead of async
+function wrapAsync(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch((e) => next(e));
+  };
+}
+
 //Homepage Get Function
 app.get("/", (req, res, next) => {
   console.log(`request made for home page`);
@@ -60,6 +89,8 @@ app.get("/", (req, res, next) => {
 });
 
 //Directing respective routes-files
+app.use(flash());
+app.use("/login", loginRoutes);
 app.use("/order", orderRoutes);
 app.use("/warehouse", warehouseRoutes);
 app.use("/vendor", vendorRoutes);
