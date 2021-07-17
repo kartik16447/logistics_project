@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const passport = require("passport");
+const session = require('express-session');
+const passport = require('passport');
+const passportLocalMongoose =require('passport-local-mongoose');
 const user = require("../models/warehouse");
 const { isLoggedIn, isAuthor } = require("../authentication/middleware");
 
@@ -13,24 +15,21 @@ router.get("/", (req, res) => {
   console.log(`login request received`);
 });
 
-router.post(
-  "/",
-  passport.authenticate(
-    "local",
-    {
-      // failureFlash: true,
-      failureRedirect: "/",
-    },
-    console.log("post request for login")
-  ),
-  (req, res) => {
-    `login request received: ${req.body.username} " " ${req.body.password}`;
-    // req.flash("success", "welcome back!");
-    const redirectUrl = req.session.returnTo || "/";
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
-  }
-);
+router.post("/login", function(res,res){
+
+    const user = new User({
+        username:req.body.username,
+        password:req.body.password
+    });
+    req.login(user, function(err) {
+        if (err) { return next(err); }
+        else{
+            passport.authenticate("local")(req,res,function(){
+                res.redirect("/")
+            })
+        }
+      });
+});
 
 router.get("/logout", (req, res) => {
   console.log(`logout request received`);
