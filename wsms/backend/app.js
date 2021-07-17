@@ -47,7 +47,9 @@ const dbURI = "mongodb://127.0.0.1:27017/wsms";
 
 //Port 3000 and 5000/8000 are fine for development purposes
 const port = 8000;
-
+//Authentication
+app.use(passport.initialize());
+app.use(passport.session());
 //TODO: Connect the env file without declaring the script as module
 
 mongoose
@@ -58,9 +60,7 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-//Authentication
-app.use(passport.initialize());
-app.use(passport.session());
+
 passport.use(new LocalStrategy(Warehouse.authenticate()));
 
 passport.serializeUser(Warehouse.serializeUser());
